@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<?import javafx.scene.layout.VBox?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="se.gritacademy.tetris.TetrisController"
+            style="-fx-background-color: #111111;">
+
+    <children>
+        <Label layoutX="20" layoutY="10"
+               text="Tetris"
+               style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;" />
+
+
+        <Label fx:id="scoreLabel"
+               layoutX="20" layoutY="40"
+               text="Score: 0"
+               style="-fx-text-fill: white; -fx-font-size: 14px;"/>
+
+        <Label fx:id="linesLabel"
+               layoutX="320" layoutY="10"
+               text="Lines: 0"
+               style="-fx-text-fill: white; -fx-font-size: 14px;" />
+
+        <Label fx:id="levelLabel"
+               layoutX="320" layoutY="40"
+               text="Level: 1"
+               style="-fx-text-fill: white; -fx-font-size: 14px;" />
+
+        <Pane fx:id="gameArea"
+              layoutX="20.0" layoutY="70.0"
+              prefHeight="500.0"
+              prefWidth="250.0"
+              style="-fx-background-color: #222222;" />
+
+        <VBox layoutX="300.0" layoutY="70.0" spacing="10.0">
+            <children>
+
+
+                <Label text="Next"
+                       style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" />
+
+                <Pane fx:id="nextArea"
+                      prefWidth="100.0"
+                      prefHeight="100.0"
+                      style="-fx-background-color: #111111;" />
+
+                <Label text="Highscores"
+                       style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" />
+                <Label fx:id="hs1" text="1. -" style="-fx-text-fill: white;" />
+                <Label fx:id="hs2" text="2. -" style="-fx-text-fill: white;" />
+                <Label fx:id="hs3" text="3. -" style="-fx-text-fill: white;" />
+                <Label fx:id="hs4" text="4. -" style="-fx-text-fill: white;" />
+                <Label fx:id="hs5" text="5. -" style="-fx-text-fill: white;" />
+            </children>
+        </VBox>
+    </children>
+
+</AnchorPane>
