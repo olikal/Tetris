@@ -77,4 +77,56 @@ public class GameBoardTest {
             }
         }
     }
+
+    @Test
+    @DisplayName("Ett nytt board ska vara helt tomt")
+    void newBoardShouldBeCompletelyEmpty() {
+        GameBoard board = new GameBoard();
+        for (int row = 0; row < GameBoard.ROWS; row++) {
+            for (int col = 0; col < GameBoard.COLUMNS; col++) {
+                assertEquals(0, board.getCell(row, col));
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("clearFullLines ska hantera fulla rader med tomma rader emellan")
+    void clearFullLinesShouldHandleGapsBetweenFullLines() {
+        GameBoard board = new GameBoard();
+        int bottom = GameBoard.ROWS - 1; // Rad 19
+        int middle = GameBoard.ROWS - 2; // Rad 18 som ska vara tom
+        int aboveMiddle = GameBoard.ROWS - 3;// Rad 17
+
+        // Fyller rad 19 + 17. Lämnar 18 tom
+        for (int col = 0; col < GameBoard.COLUMNS; col++) {
+            board.setCell(bottom, col, 1);
+            board.setCell(aboveMiddle, col, 2);
+        }
+
+        // lägger en kontroll-bit på den tomma raden, 18
+        board.setCell(middle, 5, 5);
+
+        int result = board.clearFullLines();
+
+        assertEquals(2, result, "Två rader ska ha rensats");
+
+        // Kontrollbiten från rad 18 ska nu ligga på 19
+        assertEquals(5, board.getCell(bottom, 5), "Bitarna ska ha flyttats ner");
+        // Rad 18 ska nu vara tom
+        assertEquals(0, board.getCell(middle, 5));
+    }
+
+    @Test
+    @DisplayName("setCell och getCell ska fungera på brädets ytterkanter")
+    void setAndGetCellShouldWorkAtBoundaries() {
+        GameBoard board = new GameBoard();
+
+        // Översta vänster hörn
+        board.setCell(0, 0, 7);
+        // Nedersta höger hörn
+        board.setCell(GameBoard.ROWS -1, GameBoard.COLUMNS - 1, 4);
+
+        assertEquals(7, board.getCell(0, 0));
+        assertEquals(4, board.getCell(GameBoard.ROWS - 1, GameBoard.COLUMNS - 1));
+    }
 }
