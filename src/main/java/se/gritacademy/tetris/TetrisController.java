@@ -9,10 +9,12 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -43,6 +45,7 @@ public class TetrisController {
     private Canvas nextCanvas;
     private GameStats stats;
     private TetrisGame game;
+    private boolean isPaused = false;
 
     private AnimationTimer gameLoop;
     private long lastUpdate = 0;
@@ -81,11 +84,23 @@ public class TetrisController {
         refreshHighscoreLabels();
 
         renderNextPiece();
-        startGameLoop();
+        render();
+
+        Platform.runLater(this::showStartMenu);
     }
 
     public void initInput(Scene scene) {
         scene.setOnKeyPressed(event -> {
+
+            if (event.getCode() == KeyCode.ESCAPE) {
+                if (!isPaused && !game.isGameOver()) {
+                    showPauseMenu();
+                }
+                return;
+            }
+
+            if (isPaused) return;
+
             switch (event.getCode()) {
                 case LEFT -> moveCurrentPieceHorizontal(-1);
                 case RIGHT -> moveCurrentPieceHorizontal(1);
@@ -287,36 +302,120 @@ public class TetrisController {
         if(levelLabel != null) levelLabel.setText("Level: " + stats.getLevel());
     }
 
+    private void showStartMenu() {
+        Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setTitle("Tetris the Game");
+        dialog.setOnCloseRequest(e -> {
+            Platform.exit();
+        });
+
+        Label title = new Label("TETRIS");
+        title.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #53BDF2;");
+
+        Label instructions = new Label("Arrows: Move/Rotate\nSpace: Hard Drop\nEsc: Pause game");
+        instructions.setTextAlignment(TextAlignment.CENTER);
+        instructions.setStyle("-fx-text-alignment: center");
+
+        Button startButton = new Button("Start Game");
+        startButton.setPrefWidth(120);
+        startButton.setOnAction(e -> {
+            dialog.setOnCloseRequest(null);
+            dialog.close();
+            startGameLoop();
+        });
+
+        VBox layout = new VBox(20, title, instructions, startButton);
+
+        layout.setAlignment(Pos.CENTER);
+        layout.setStyle("-fx-padding: 30; -fx-text-alignment: center; -fx-background-color: #222222;");
+
+        instructions.setStyle("-fx-text-fill: white;");
+
+        Scene scene = new Scene(layout, 300, 250);
+        dialog.setScene(scene);
+        dialog.show();
+    }
+
+    private void showPauseMenu() {
+        if (gameLoop == null) return;
+
+        isPaused = true;
+        gameLoop.stop();
+
+        Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setTitle("Pause");
+
+        dialog.setOnCloseRequest(e -> resumeGame());
+
+        Label title = new Label("Game Paused");
+        title.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #53BDF2");
+
+        Button resumeButton = new Button("Resume");
+        resumeButton.setPrefWidth(120);
+        resumeButton.setOnAction(e -> {
+            dialog.close();
+            resumeGame();
+        });
+
+        Button restartButton = new Button("Restart");
+        restartButton.setPrefWidth(120);
+        restartButton.setOnAction(e -> {
+            dialog.close();
+            isPaused = false;
+            restartGame();
+        });
+
+        Button quitButton = new Button("Quit");
+        quitButton.setPrefWidth(120);
+        quitButton.setOnAction(e -> Platform.exit());
+
+        VBox layout = new VBox(15, title, resumeButton, restartButton, quitButton);
+        layout.setAlignment(Pos.CENTER);
+        layout.setStyle("-fx-padding: 30; -fx-background-color: #222222;");
+
+        dialog.setScene(new Scene(layout, 300, 300));
+        dialog.show();
+    }
+
+    private void resumeGame() {
+        isPaused = false;
+        lastUpdate = 0;
+        gameLoop.start();
+    }
+
     private void showGameOverDialog() {
         Stage dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.setTitle("Game Over");
+        dialog.setOnCloseRequest(e -> Platform.exit());
 
         Label title = new Label("GAME OVER");
-        title.setStyle("-fx-font-size: 22px; -fx-font-weight: bold;");
+        title.setStyle("-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #53BDF2;");
 
-        Label scoreText = new Label("Your score: " + stats.getScore());
+        Label scoreLabel = new Label("Your score: " + stats.getScore());
+        scoreLabel.setStyle("-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold");
 
         Button restartButton = new Button("Restart");
-        Button quitButton = new Button("Quit");
-
+        restartButton.setPrefWidth(120);
         restartButton.setOnAction(e -> {
             dialog.close();
             restartGame();
         });
 
-        quitButton.setOnAction(e -> {
-            dialog.close();
-            Platform.exit();
-        });
+        Button quitButton = new Button("Quit");
+        quitButton.setPrefWidth(120);
+        quitButton.setOnAction(e -> Platform.exit());
 
-        HBox buttons = new HBox(10, restartButton, quitButton);
-        buttons.setAlignment(Pos.CENTER);
+        HBox buttonLayout = new HBox(15, restartButton, quitButton);
+        buttonLayout.setAlignment(Pos.CENTER);
 
-        VBox layout = new VBox(20, title, scoreText, buttons);
-        layout.setStyle("-fx-padding: 20; -fx-alignment: center;");
+        VBox layout = new VBox(20, title, scoreLabel, buttonLayout);
+        layout.setAlignment(Pos.CENTER);
+        layout.setStyle("-fx-padding: 30; -fx-background-color: #222222;");
 
-        Scene scene = new Scene(layout, 250,200);
+        Scene scene = new Scene(layout, 350,250);
         dialog.setScene(scene);
         dialog.show();
     }
