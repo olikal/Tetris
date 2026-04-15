@@ -10,6 +10,7 @@ Detta projekt är ett examensarbete utvecklat inom ramen för utbildningen Fulls
 
 <p align="center">
   <img src="img/start_menu.png" width="45%" alt="Startmeny" />
+  &nbsp;&nbsp;&nbsp;&nbsp;
   <img src="img/gameplay.png" width="45%" alt="Gameplay" />
 </p>
 
