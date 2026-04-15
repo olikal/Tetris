@@ -24,7 +24,7 @@ Detta projekt är ett examensarbete utvecklat inom ramen för utbildningen Fulls
 
 ## 📄 Dokumentation
 Den fullständiga tekniska rapporten som beskriver arkitektur, metodval och tekniska utmaningar finns tillgänglig här:
-👉 [Examensrapport - Oliver Kalthoff (PDF)](docs/Examensarbete_Java24_Oliver_Kalthoff_Tetris_JavaFx.pdf)
+👉 [Examensrapport - Oliver Kalthoff (PDF)](docs/Examensarbete_Java24_Oliver_Kalthoff_Tetris_JavaFX.pdf)
 
 ## 🛠 Teknikstack
 
