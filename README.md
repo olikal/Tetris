@@ -10,6 +10,7 @@ Detta projekt är ett examensarbete utvecklat inom ramen för utbildningen Fulls
 
 <p align="center">
   <img src="img/start_menu.png" width="45%" alt="Startmeny" />
+  &nbsp;&nbsp;&nbsp;&nbsp;
   <img src="img/gameplay.png" width="45%" alt="Gameplay" />
 </p>
 
@@ -23,7 +24,7 @@ Detta projekt är ett examensarbete utvecklat inom ramen för utbildningen Fulls
 
 ## 📄 Dokumentation
 Den fullständiga tekniska rapporten som beskriver arkitektur, metodval och tekniska utmaningar finns tillgänglig här:
-👉 [Examensrapport - Oliver Kalthoff (PDF)](docs/Examensarbete_Oliver_Kalthoff_Tetris_JavaFX.pdf)
+👉 [Examensrapport - Oliver Kalthoff (PDF)](docs/Examensarbete_Java24_Oliver_Kalthoff_Tetris_JavaFx.pdf)
 
 ## 🛠 Teknikstack
 
