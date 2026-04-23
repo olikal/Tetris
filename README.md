@@ -37,8 +37,8 @@ Den fullständiga tekniska rapporten som beskriver arkitektur, metodval och tekn
 ## 📋 Installation & Körning
 
 ### Förutsättningar
-* Java 21 (JDK)
-* Maven
+* Java 21 (JDK) (eller senare)
+* Maven 3.6.0 (eller senare)
 
 ### Steg-för-steg
 1. Klona repot:
